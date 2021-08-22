@@ -6,7 +6,7 @@ PORT = 5050  # port number
 SERVER = socket.gethostbyname(socket.gethostname())  # server ipv4 adress
 ADDR = (SERVER, PORT)
 FORMAT = 'utf-8'
-DISCONNECT_MSG = "!disc"
+DISCONNECT_MSG = "!disc"  # disconnecting message
 
 
 #creating new socket      family             type
@@ -19,12 +19,13 @@ def handle_client(conn, addr):
     connected = True
     while connected:
         msg_len = conn.recv(HEADER).decode(FORMAT)
-        msg_len = int(msg_len)
-        msg = conn.recv(msg_len).decode(FORMAT)
-        if msg == DISCONNECT_MSG:
-            connected = False
+        if msg_len: 
+            msg_len = int(msg_len)
+            msg = conn.recv(msg_len).decode(FORMAT)
+            if msg == DISCONNECT_MSG:
+                connected = False
 
-        print(f"[{addr}] {msg}")
+            print(f"[{addr}] {msg}")
     
     conn.close()
 
