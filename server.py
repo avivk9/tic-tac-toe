@@ -20,7 +20,7 @@ def handle_client(conn, addr):
     while connected:
         msg_len = conn.recv(HEADER).decode(FORMAT)
         msg_len = int(msg_len)
-        msg = conn.recv(msg_length).decode(FORMAT)
+        msg = conn.recv(msg_len).decode(FORMAT)
         if msg == DISCONNECT_MSG:
             connected = False
 
@@ -38,7 +38,7 @@ def start():
         thread.start()
         print(f"[ACTIVE CONNECTIONS] {threading.activeCount() - 1}")
 
-print("[STARTING] server is starting...")
+print("[STARTING] server i starting...")
 start()
 
 
