@@ -6,7 +6,6 @@ PORT = 5050  # port number
 SERVER = socket.gethostbyname(socket.gethostname())  # server ipv4 adress
 ADDR = (SERVER, PORT)
 FORMAT = 'utf-8'
-DISCONNECT_MSG = "!disc"  # disconnecting message
 TYPE = 'O'
 
 #creating new socket      family             type
@@ -26,23 +25,20 @@ def won(board):
 
 
 def printBoard(board):
-    print(board[0] + "|" + board[1] + "|" + board[2])
+    print('\n' + board[0] + "|" + board[1] + "|" + board[2])
     print("-----")
     print(board[3] + "|" + board[4] + "|" + board[5])
     print("-----")
-    print(board[6] + "|" + board[7] + "|" + board[8])
+    print(board[6] + "|" + board[7] + "|" + board[8] + '\n')
 
 
 
 def handle_client(conn, addr):
-    
-    print("[~ENEMY CONNECTED - WAIT FOR HIS CHOICE~")
 
     connected = True
     while connected:
         msg = conn.recv(2048).decode(FORMAT)
         if msg:
-            #print("MSG = " + msg)
             if msg == 'X':
                 TYPE = 'O'
             else:
@@ -56,7 +52,9 @@ def handle_client(conn, addr):
                         board = msg
                         print("~ENEMY'S MOVE:~")
                         printBoard(board)
-                        placement = input(f"enter the index to put {TYPE} (number 1-9): ")
+                        placement = '?'
+                        while placement <'1' or placement > '9':
+                            placement = input(f"enter the index to put {TYPE} (number 1-9): ")
                         board = board[0:int(placement) - 1] + TYPE + board[int(placement):9]
                         printBoard(board)
                         if won(board):
@@ -73,17 +71,21 @@ def handle_client(conn, addr):
     
     
 
-
+print("Hi, welcome to \"TicTacToe\" - made by avivk9")
+print("The other user will get to choice if he play's X or O")
+print("Every turn you'll need to choose the index of your placement")
+printBoard("123456789")
+print("\n\n~TO BEGIN CLICK ENTER~")
+input()
 def start():
     server.listen() 
-    print(f"[LISTENING] Server is listening on {SERVER}")
+    print("ENEMY CAN JOIN NOW")
     while True:
         conn, addr = server.accept()
         thread = threading.Thread(target=handle_client, args=(conn, addr))
         thread.start()
-        print(f"[ACTIVE CONNECTIONS] {threading.activeCount() - 1}")
+        print("ENEMY CONNECTED - WAITING FOR HIS CHOICES...")
 
-print("[STARTING] server i starting...")
 start()
 
 
