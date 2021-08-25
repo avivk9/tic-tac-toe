@@ -108,11 +108,7 @@ def handle_client(conn, addr):
                         printBoard(board)
                         conn.send(board.encode(FORMAT))
             
-        
-            
-
-
-            
+   
     
     
 
@@ -130,6 +126,7 @@ def start():
         thread = threading.Thread(target=handle_client, args=(conn, addr))
         thread.start()
         print("ENEMY CONNECTED - WAITING FOR HIS CHOICES...")
+
 
 start()
 

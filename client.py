@@ -95,8 +95,7 @@ def main():
             print("\n[ERORR] The enemy still not playing - wait for him to start first")
             print("hit ENTER when the enemy is ready\n")
             input()
-    
-
+  
     flag = True
     while flag:
         TYPE = input("\nDo you wanna be X or O? ")
